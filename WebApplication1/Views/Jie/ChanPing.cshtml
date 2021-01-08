@@ -1,0 +1,178 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ChanPing</title>
+    <link href="~/X-admin/css/font.css" rel="stylesheet" />
+    <link href="~/X-admin/css/xadmin.css" rel="stylesheet" />
+    <script src="~/X-admin/lib/layui/layui.js"></script>
+    <script src="~/X-admin/js/xadmin.js"></script>
+</head>
+<body>
+    <div class="x-nav">
+        <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">演示</a>
+            <a>
+                <cite>导航元素</cite>
+            </a>
+        </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+        </a>
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body ">
+                        <div class="layui-collapse" lay-filter="test">
+                            <div class="layui-colla-item">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card-header">
+                        <input type="button" id="" value="批量删除" class="layui-btn"/>
+                        <a href="/Jie/ChanPingAdd" class="layui-btn">添加</a>
+                    </div>
+                    <div class="layui-card-body ">
+                        <table border="1" width="100%" class="layui-table">
+                            <thead>
+                                <tr>
+                                    <td><input type="checkbox" name=""></td>
+                                    <td>产品编号</td>
+                                    <td>产品名称</td>
+                                    <td>产品价格</td>
+                                    <td>产品规格</td>
+                                    <td>产品类别</td>
+                                    <td>单位</td>
+                                    <td>创建时间</td>
+                                    <td>备注</td>
+                                    <td>操作</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--定义分页的容器-->
+                    <div id="DemoPageList">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/X-admin/lib/layui/layui.js"></script>
+<script>
+    var pageIndex = 1;
+    var pageSize = 3;
+    var pageCount = 0;
+    var rows = 0;
+
+    $(function () {
+        GetRows();
+        PageList(pageIndex, pageSize);
+    });
+
+    //分页数据
+    function PageList(pageIndex, pageSize) {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/PageListProbaict",
+            data: "{pageIndex:" + pageIndex + ",pageSize:" + pageSize + "}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                pageCount = result.pageCount;
+                $("#tbl tr").remove();
+                $.each(result.DataList, function (index, data) {
+                    $("#tbl").append("<tr><td><input  type='checkbox'name='subcheck'/></td><td>" + data.ProId + "</td><td>" + data.ProName + "</td><td>" + data.ProPrice + "</td><td>" + data.PorGuiGe + "</td><td>" + data.ProCId + "</td><td>" + data.UnId + "</td><td>" + time(data.CreateTime) + "</td><td>" + data.Remake + "</td><td><a href='#' onclick='return Del(" + data.ProId + ")'>删除</a><a href='/Jie/ChanPingUpdate?id=" + data.ProId + "'>修改</a></td></tr>");
+                })
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    //时间
+    function time(m) {
+        var dd = new Date(parseInt(m.substr(6)));
+        return dd.toLocaleDateString();
+    };
+
+    //条数
+    function GetRows() {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/GetRows",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                //获取总条数
+                rows = result;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'DemoPageList'
+                        //设置总条数
+                        , count: rows
+                        , limit: 3
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr 当前页码
+                                //obj.limit 每页显示条数
+                                PageList(obj.curr, obj.limit);
+                            }
+                            console.log(obj)
+                        }
+                    });
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    //删除
+    function Del(id) {
+        if (confirm('确定删除?')) {
+            $.ajax({
+                type: "POST",
+                url: "/Jie/GetDelete",
+                data: "{id:" + id + "}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result > 0) {
+                        alert("删除成功!");
+                        PageList();
+                    }
+                    else {
+                        alert("删除失败!");
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+    }
+</script>

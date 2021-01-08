@@ -1,0 +1,186 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ChanPingUpdate</title>
+    <link href="~/X-admin/css/font.css" rel="stylesheet" />
+    <link href="~/X-admin/css/xadmin.css" rel="stylesheet" />
+    <script src="~/X-admin/lib/layui/layui.js"></script>
+    <script src="~/X-admin/js/xadmin.js"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <form>
+                <div class="layui-form-item">
+                    <label for="username" class="layui-form-label">
+                        <span class="x-red">*</span>产品编号
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ProId" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="username" class="layui-form-label">
+                        <span class="x-red">*</span>产品名称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ProName" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="phone" class="layui-form-label">
+                        <span class="x-red">*</span>产品价格
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ProPrice" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="phone" class="layui-form-label">
+                        <span class="x-red">*</span>产品规格
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="PorGuiGe" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="username" class="layui-form-label">
+                        <span class="x-red">*</span>产品类别
+                    </label>
+                    <div class="layui-input-inline">
+                        <select id="ProCId">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="username" class="layui-form-label">
+                        <span class="x-red">*</span>产品单位
+                    </label>
+                    <div class="layui-input-inline">
+                        <select id="UnId">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="phone" class="layui-form-label">
+                        <span class="x-red">*</span>创建时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="CreateTime" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-form-item">
+            <input type="button" id="Submit1" value="保存" class="layui-btn" />
+            <a href="/Jie/ChanPing" class="layui-btn">取消</a>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    var id = 0;
+    $(function () {
+        id =@Request.QueryString["id"];
+        GetUnit();
+        GetProbaitCatagory();
+        GetById(id);
+        $("#Submit1").click(function () {
+            Sava(id);
+        })
+    });
+    //单位绑定
+    function GetUnit() {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/GetUnit",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $.each(result, function (index, data) {
+                    $("#UnId").append("<option value='" + data.UnId + "'>" + data.UnName + "</option>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+    //类别名称绑定
+    function GetProbaitCatagory() {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/GetProbaitCatagory",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $.each(result, function (index, data) {
+                    $("#ProCId").append("<option value='" + data.ProCId + "'>" + data.ProCName + "</option>");
+                });
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    function time(m) {
+        var dd = new Date(parseInt(m.substr(6)));
+        return dd.toLocaleDateString();
+    };
+
+    function GetById(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/GetById",
+            data: "{Id:" + id + "}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#ProId").val(result[0].ProId);
+                $("#ProName").val(result[0].ProName);
+                $("#ProPrice").val(result[0].ProPrice);
+                $("#PorGuiGe").val(result[0].PorGuiGe);
+                $("#ProCId").val(result[0].ProCId);
+                $("#UnId").val(result[0].UnId);
+                $("#CreateTime").val(time(result[0].CreateTime));
+                $("#Remake").val(result[0].Remake);
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        });
+    }
+
+    function Sava(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Jie/Update",
+            data: "{pr:{ProId:"+id+", ProId:'" + $("#ProId").val() + "',ProName:'" + $("#ProName ").val() + "',ProPrice:'" + $("#ProPrice").val() + "',PorGuiGe:'" + $("#PorGuiGe").val() + "',ProCId:'" + $("#ProCId").val + "',UnId:'" + $("#UnId").val() + "',CreateTime:'" + $("#CreateTime").val() + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                if (result > 0) {
+                    alert("修改成功");
+                    location.href = '/Default/Index';
+                }
+                else {
+                    alert("修改失败");
+                }
+            },
+            error: function (ex) {
+                alert(ex.responseText);
+            }
+        })
+    }
+</script>
