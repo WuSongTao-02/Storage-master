@@ -492,6 +492,25 @@
     <Content Include="Views\Huang\Update.cshtml" />
     <Content Include="Views\WST\password.cshtml" />
     <Content Include="Views\WST\UserMsessage.cshtml" />
+    <Content Include="Views\WST\GoodsStatistics.cshtml" />
+    <Content Include="Views\Jie\ChanPing.cshtml" />
+    <Content Include="Views\Jie\ChanPingAdd.cshtml" />
+    <Content Include="Views\Jie\ChanPingUpdate.cshtml" />
+    <Content Include="Views\LiuMin\CustIndex.cshtml" />
+    <Content Include="Views\LiuMin\Index.cshtml" />
+    <Content Include="Views\LiuMin\VendorIndex.cshtml" />
+    <Content Include="Views\shuaikm\Index.cshtml" />
+    <Content Include="Views\WST\Inventory.cshtml" />
+    <Content Include="Views\WST\Warehouse.cshtml" />
+    <Content Include="Views\WST\WarehouseDetails.cshtml" />
+    <Content Include="Views\WST\Deliver.cshtml" />
+    <Content Include="Views\WST\DeliversDetails.cshtml" />
+    <Content Include="Views\WST\Customer.cshtml" />
+    <Content Include="Views\WST\CustomersDetails.cshtml" />
+    <Content Include="Views\WST\Vendor.cshtml" />
+    <Content Include="Views\WST\Damage.cshtml" />
+    <Content Include="Views\WST\Comeback.cshtml" />
+    <Content Include="Views\WST\welcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

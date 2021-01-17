@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GoodsStatistics</title>
+    <link href="~/X-admin/css/font.css" rel="stylesheet" />
+    <link href="~/X-admin/css/xadmin.css" rel="stylesheet" />
+    <link  href="~/X-admin/lib/layui/css/layui.css"/>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body ">
+                            <div class="layui-inline layui-show-xs-block">
+                                <input class="layui-input" placeholder="产品编号" id="id" >
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input class="layui-input" placeholder="产品名称"  id="name">
+                            </div>
+                            
+                            <div class="layui-inline layui-show-xs-block">
+                                <button class="layui-btn"  id="btn"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                    </div>
+                   
+                    <div class="layui-card-body layui-table-body layui-table-main">
+                        <table class="layui-table " >
+                            <thead>
+                                <tr>
+                                    <th>产品编号</th>
+                                    <th>产品名称</th>
+                                    <th>类别</th>
+                                    <th>规格</th>
+                                    <th>库存数</th>
+                                    <th>进货总数</th>
+                                    <th>出货总数</th>
+                                    <th>报损总数</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbo">
+                            </tbody>
+                        </table>
+                        <div id="demoPageList">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/X-admin/lib/layui/layui.js"></script>
+<script>
+    var pageindex = 1;
+    var pagesize = 10;
+    var pagecount = 0;
+    var rows = 0;
+    layui.use('table', function () {
+        var table = layui.table;
+    });
+   
+    $(function () {
+        GetAll(pageindex, pagesize);
+
+    })
+
+    function GetAll(pindex, psize) {
+        var proid = $("#id").val();
+        var proName = $("#name").val();
+        $.ajax({
+            type: "POST", //提交方式
+            url: "/WST/GoodsStatisticss",//请求URL路径
+            data: "{pro:{ProId:'" + proid + "',ProName:'" + proName + "'}, pagesize:" + psize + ",pageindex:" + pindex + "}",//向服务器传递的参数
+            dataType: "json",//预期服务器返回的数据类型
+            contentType: "application/json",//发送信息至服务器时内容编码类型
+            //请求成功后的回调函数
+            success: function (result) {
+                console.log(result);
+                $("#tbo tr").remove();
+                pagecount = result.PageCount;
+                $.each(result.DataList, function (index, data) {
+                    $("#tbo").append("<tr><td>" + data.ProId + "</td><td>" + data.ProName + "</td><td>" + data.ProCName + "</td><td>" + data.PorGuiGe + "</td><td>" + data.ProCount + "</td><td>" + data.ProBaoSun + "</td><td>" + data.ProJinh + "</td><td>" + data.ProChuh + "</td></tr>");
+                })
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'demoPageList'
+                        //设置总条数
+                        , count: result.DataList.length //总条数
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                //调用我们自己分页的方法
+                                //obj.curr:页码 obj.limit:每页显示数据
+                                GetAll(obj.curr, obj.limit);
+                            }
+                          
+                        }
+                    });
+                });
+
+            },
+            //请求失败的回调函数
+            error: function (ex) {
+                alert("error:" + ex);
+            }
+        })
+    }
+    $("#btn").click(function () {
+        var proid = $("#id").val();
+        var proName = $("#name").val();
+        GetAll(pageindex, pagesize);
+       
+    })
+
+</script>

@@ -146,6 +146,7 @@
     <Compile Include="WarehouseStorage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="WST\pagelist.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

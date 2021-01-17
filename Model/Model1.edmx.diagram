@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4339d2283fc84734aa4c0aa304efb637" Name="Diagram1">
+      <Diagram DiagramId="4339d2283fc84734aa4c0aa304efb637" Name="Diagram1" ZoomLevel="81">
         <EntityTypeShape EntityType="CangChuModel.Admin" Width="1.5" PointX="13" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CangChuModel.Auditing" Width="1.5" PointX="3.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CangChuModel.CombackStorage" Width="1.5" PointX="10.5" PointY="6.125" IsExpanded="true" />

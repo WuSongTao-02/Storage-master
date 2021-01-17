@@ -1,0 +1,91 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CustomersDetails</title>
+    <link href="~/X-admin/css/font.css" rel="stylesheet" />
+    <link href="~/X-admin/css/xadmin.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <table class="layui-table">
+                <tbody>
+                    <tr>
+                        <td><strong>编号</strong></td>
+                        <td id="id"></td>
+                        <td><strong>名称</strong></td>
+                        <td id="name"></td>
+                        <td><strong>电话</strong></td>
+                        <td id="tel"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>email</strong></td>
+                        <td id="email"></td>
+                        <td><strong>备注</strong></td>
+                        <td  colspan="4" id="remake"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="layui-table" style="margin-top:50px">
+                <tr style="color:#000000">
+                    <td><strong>地址编号</strong></td>
+                    <td><strong>地址</strong></td>
+                    <td><strong>联系人</strong></td>
+                    <td><strong>电话</strong></td>
+
+                </tr>
+                <tbody class="layui-table-body" id="tbo"></tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/layer/layer.js"></script>
+<script src="~/X-admin/lib/layui/layui.js" charset="utf-8"></script>
+<script src="~/X-admin/js/xadmin.js"></script>
+<script>
+    var id = @Request.QueryString["id"];
+
+    $(function () {
+        a();
+       
+    })
+    function conventTime(op) {
+        var date = new Date(parseInt(op.substr(6)));
+        return date.toLocaleDateString();
+    }
+    function a() {
+        $.ajax({
+            type: "POST", //提交方式
+            url: "/WST/CustomersDetailss",//请求URL路径
+            data: "{id:" + id + "}",//向服务器传递的参数
+            dataType: "json",//预期服务器返回的数据类型
+            contentType: "application/json",//发送信息至服务器时内容编码类型
+            //请求成功后的回调函数
+            success: function (result) {
+                console.log(result);
+                $("#id").text(result[0].CusId);
+                $("#name").text(result[0].CusName);
+                $("#remake").text(result[0].Remanke);
+                $("#email").text(result[0].email);
+                $("#tel").text(result[0].CusTel);
+                $.each(result, function (index, data) {
+                    $("#tbo").append("<tr><td>" + data.CusadId + "</td><td>" + data.CusadAddress + "</td><td>" + data.CusadPerson + "</td><td>" + data.CusadTel +"</td></tr>")
+                })
+            },
+            //请求失败的回调函数
+            error: function (ex) {
+                alert("error:" + ex);
+            }
+        })
+    }
+    
+</script>

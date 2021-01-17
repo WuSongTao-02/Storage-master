@@ -37,7 +37,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item to-index">
-                <a href="login.html">退出登录</a>
+                <a href="/WST/Login">退出登录</a>
             </li>
         </ul>
     </div>
@@ -174,67 +174,55 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a onclick="xadmin.add_tab('库存清单','echarts1.html')">
+                            <a onclick="xadmin.add_tab('库存清单','/WST/GoodsStatistics')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>库存清单</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('货品统计','echarts2.html')">
+                            <a onclick="xadmin.add_tab('货品统计','/WST/Inventory')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>货品统计</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('入库报表','echarts3.html')">
+                            <a onclick="xadmin.add_tab('入库报表','/WST/Warehouse')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>入库报表</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('出库报表','echarts4.html')">
+                            <a onclick="xadmin.add_tab('出库报表','/WST/Deliver')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>出库报表</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('报损报表','echarts5.html')">
+                            <a onclick="xadmin.add_tab('报损报表','/WST/Damage')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>报损报表</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('退货报表','echarts6.html')">
+                            <a onclick="xadmin.add_tab('退货报表','/WST/Comeback')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>退货报表</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('客户报表','echarts7.html')">
+                            <a onclick="xadmin.add_tab('客户报表','/WST/Customer')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>客户报表</cite>
                             </a>
                         </li>
                         <li>
-                            <a onclick="xadmin.add_tab('供应商报表','echarts8.html')">
+                            <a onclick="xadmin.add_tab('供应商报表','/WST/Vendor')">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>供应商报表</cite>
                             </a>
                         </li>
-                        <li>
-                            <a onclick="xadmin.add_tab('台账记录','echarts8.html')">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>台账记录</cite>
-                            </a>
-                        </li>
+                       
                     </ul>
-                </li>
-                <li>
-                    <a href="javascript:;" onclick="logout()">
-                        <i class="iconfont left-nav-li" lay-tips="退出系统">&#xe6b4;</i>
-                        <cite>退出系统</cite>
-                    </a>
-
                 </li>
 
             </ul>
@@ -259,7 +247,7 @@
             </div>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                    <iframe src='/WST/welcome' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                 </div>
             </div>
             <div id="tab_show"></div>
@@ -277,7 +265,7 @@
 
 <script>
     function logout() {
-
+        
         location.href = "/WST/Login";
     }
 </script>

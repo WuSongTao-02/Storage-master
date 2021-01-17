@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CangChuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CangChuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Id" />
@@ -60,7 +60,7 @@
           <Property Name="CusName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CusTel" Type="char" MaxLength="11" Nullable="false" />
           <Property Name="CreateTime" Type="date" Nullable="false" />
-          <Property Name="email" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="CusNum" Type="int" Nullable="false" />
           <Property Name="Remanke" Type="varchar" MaxLength="50" />
@@ -113,6 +113,7 @@
           <Property Name="IsDelete" Type="int" Nullable="false" />
           <Property Name="Remake" Type="varchar" MaxLength="50" />
           <Property Name="AudiId" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DeliverStorage">
           <Key>
@@ -173,6 +174,7 @@
           <Property Name="ProChuhuo" Type="int" Nullable="false" />
           <Property Name="ProBaosun" Type="int" Nullable="false" />
           <Property Name="IsDelete" Type="int" Nullable="false" />
+          <Property Name="ProTuihuo" Type="int" Nullable="false" />
           <Property Name="Remake" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProbaictCatagory">
@@ -772,8 +774,7 @@
             <End Role="WarehouseStorage" EntitySet="WarehouseStorage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CangChuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -844,7 +845,7 @@
           <Property Name="CusName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CusTel" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsDelete" Type="Int32" Nullable="false" />
           <Property Name="CusNum" Type="Int32" Nullable="false" />
           <Property Name="Remanke" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -908,6 +909,7 @@
           <NavigationProperty Name="CombackStorage" Relationship="Self.FK_CombackStorage_Deliver" FromRole="Deliver" ToRole="CombackStorage" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Deliver_Customer" FromRole="Deliver" ToRole="Customer" />
           <NavigationProperty Name="DeliverStorage" Relationship="Self.FK_DeliverStorage_Deliver" FromRole="Deliver" ToRole="DeliverStorage" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DeliverStorage">
           <Key>
@@ -984,6 +986,7 @@
           <NavigationProperty Name="Unit" Relationship="Self.FK_Probaict_Unit" FromRole="Probaict" ToRole="Unit" />
           <NavigationProperty Name="ProbaictStorage" Relationship="Self.FK_ProbaictStorage_Probaict" FromRole="Probaict" ToRole="ProbaictStorage" />
           <NavigationProperty Name="WarehouseStorage" Relationship="Self.FK_WarehouseStorage_Probaict" FromRole="Probaict" ToRole="WarehouseStorage" />
+          <Property Name="ProTuihuo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ProbaictCatagory">
           <Key>
@@ -1711,6 +1714,7 @@
           <EntitySetMapping Name="Deliver">
             <EntityTypeMapping TypeName="CangChuModel.Deliver">
               <MappingFragment StoreEntitySet="Deliver">
+                <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="DeliId" ColumnName="DeliId" />
                 <ScalarProperty Name="DeliType" ColumnName="DeliType" />
                 <ScalarProperty Name="DeliaOrder" ColumnName="DeliaOrder" />
@@ -1774,6 +1778,7 @@
           <EntitySetMapping Name="Probaict">
             <EntityTypeMapping TypeName="CangChuModel.Probaict">
               <MappingFragment StoreEntitySet="Probaict">
+                <ScalarProperty Name="ProTuihuo" ColumnName="ProTuihuo" />
                 <ScalarProperty Name="ProId" ColumnName="ProId" />
                 <ScalarProperty Name="ProName" ColumnName="ProName" />
                 <ScalarProperty Name="ProPrice" ColumnName="ProPrice" />
